@@ -1,0 +1,8 @@
+var/
+noodle/
+env/
+.idea/
+*.swp
+*.bak
+*.py[cod]
+.DS_Store
