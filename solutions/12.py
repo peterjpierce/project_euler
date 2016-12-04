@@ -13,7 +13,6 @@ Let us list the factors of the first seven triangle numbers:
 We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred divisors?
 """
-from collections import deque
 from datetime import datetime as dtime
 
 
@@ -22,26 +21,20 @@ def is_factor(divisor, number):
     return not number % divisor
 
 
-class DivisorPool:
-    """Generate and prune possible divisors to check."""
-    def __init__(self, maximum):
-        self.range_stop = maximum + 1
-        self.pool = set()
+def primes(maximum_value, verbose=True):
+    """Generate a sequence of prime numbers, using Sieve of Eratosthenes."""
+    known_nonprimes = set()
+    range_stop = maximum_value + 1
 
-    def remove_multiples(self, value):
-        """Remove multiples of factor from the pool, if > 1."""
-        if value > 1:
-            self.pool.difference_update(range(value, self.range_stop, value))
+    for cursor in range(2, range_stop):
+        if cursor not in known_nonprimes:
+            more_nonprimes = range(cursor ** 2, range_stop, cursor)
+            known_nonprimes.update(more_nonprimes)
 
-    def __iter__(self):
-        self.pool.update(range(1, self.range_stop))
-        return self
+            if verbose:
+                print('found prime: %12d' % cursor)
 
-    def __next__(self):
-        try:
-            return self.pool.pop()
-        except KeyError:
-            raise StopIteration
+            yield cursor
 
 
 def run():
@@ -54,17 +47,27 @@ def run():
     while True:
         cursor += 1
         triangle_number += cursor
-        possible_divisors = DivisorPool(int(triangle_number / 2) + 1)
-        divisors = deque()
+        accumulated_factors = {}
 
-        for number in possible_divisors:
-            if is_factor(number, triangle_number):
-                divisors.append(number)
-            else:
-                possible_divisors.remove_multiples(number)
+        # factorize this number
+        for prime in primes(triangle_number, verbose=False):
+            unfactored_portion = triangle_number
+            count = 0
 
-        divisors.append(triangle_number)
-        divisor_count = len(divisors)
+            while is_factor(prime, unfactored_portion):
+                count += 1
+                unfactored_portion /= prime
+
+            if count:
+                accumulated_factors[prime] = count
+
+            if unfactored_portion < prime:
+                break
+
+        # calculate count of divisors
+        divisor_count = 1
+        for exponent in accumulated_factors.values():
+            divisor_count *= (exponent + 1)
 
         if verbose:
             print('%4d divisors for %d' % (divisor_count, triangle_number))
