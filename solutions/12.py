@@ -14,6 +14,7 @@ We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred divisors?
 """
 from datetime import datetime as dtime
+from math import sqrt
 
 
 def is_factor(divisor, number):
@@ -24,7 +25,7 @@ def is_factor(divisor, number):
 def primes(maximum_value, verbose=True):
     """Generate a sequence of prime numbers, using Sieve of Eratosthenes."""
     known_nonprimes = set()
-    range_stop = maximum_value + 1
+    range_stop = int(maximum_value) + 1
 
     for cursor in range(2, range_stop):
         if cursor not in known_nonprimes:
@@ -39,19 +40,19 @@ def primes(maximum_value, verbose=True):
 
 def run():
     start_time = dtime.now()
-    cursor, triangle_number, results = 0, 0, None
+    cursor, triangle_number, divisor_count, results = 0, 0, 0, None
     verbose = True
-    # divisors_needed = 6
     divisors_needed = 501
+    # divisors_needed = 6
 
-    while True:
+    while divisor_count < divisors_needed:
         cursor += 1
         triangle_number += cursor
+        unfactored_portion = triangle_number
         accumulated_factors = {}
 
         # factorize this number
-        for prime in primes(triangle_number, verbose=False):
-            unfactored_portion = triangle_number
+        for prime in primes(sqrt(triangle_number), verbose=False):
             count = 0
 
             while is_factor(prime, unfactored_portion):
@@ -61,8 +62,8 @@ def run():
             if count:
                 accumulated_factors[prime] = count
 
-            if unfactored_portion < prime:
-                break
+        if unfactored_portion > 1:
+            accumulated_factors[unfactored_portion] = 1
 
         # calculate count of divisors
         divisor_count = 1
@@ -72,12 +73,7 @@ def run():
         if verbose:
             print('%4d divisors for %d' % (divisor_count, triangle_number))
 
-        if divisor_count >= divisors_needed:
-            results = {'number': triangle_number, 'divisor_count': divisor_count}
-            break
-
-    answer = results
-
+    answer = {'number': triangle_number, 'divisor_count': divisor_count}
     print('answer is: %s' % str(answer))
     print('elapsed seconds: %f' % (dtime.now() - start_time).total_seconds())
 
