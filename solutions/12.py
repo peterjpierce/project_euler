@@ -53,14 +53,9 @@ def run():
 
         # factorize this number
         for prime in primes(sqrt(triangle_number), verbose=False):
-            count = 0
-
             while is_factor(prime, unfactored_portion):
-                count += 1
+                accumulated_factors[prime] = accumulated_factors.get(prime, 0) + 1
                 unfactored_portion /= prime
-
-            if count:
-                accumulated_factors[prime] = count
 
         if unfactored_portion > 1:
             accumulated_factors[unfactored_portion] = 1
