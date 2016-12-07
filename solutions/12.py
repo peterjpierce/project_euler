@@ -16,26 +16,7 @@ What is the value of the first triangle number to have over five hundred divisor
 from datetime import datetime as dtime
 from math import sqrt
 
-
-def is_factor(divisor, number):
-    """Determine if a number is a factor of another."""
-    return not number % divisor
-
-
-def primes(maximum_value, verbose=True):
-    """Generate a sequence of prime numbers, using Sieve of Eratosthenes."""
-    known_nonprimes = set()
-    range_stop = int(maximum_value) + 1
-
-    for cursor in range(2, range_stop):
-        if cursor not in known_nonprimes:
-            more_nonprimes = range(cursor ** 2, range_stop, cursor)
-            known_nonprimes.update(more_nonprimes)
-
-            if verbose:
-                print('found prime: %12d' % cursor)
-
-            yield cursor
+from shared import util
 
 
 def run():
@@ -52,8 +33,8 @@ def run():
         accumulated_factors = {}
 
         # factorize this number
-        for prime in primes(sqrt(triangle_number), verbose=False):
-            while is_factor(prime, unfactored_portion):
+        for prime in util.primes(sqrt(triangle_number), verbose=False):
+            while util.is_divisor(prime, unfactored_portion):
                 accumulated_factors[prime] = accumulated_factors.get(prime, 0) + 1
                 unfactored_portion /= prime
 

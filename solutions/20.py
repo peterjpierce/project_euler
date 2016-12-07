@@ -10,19 +10,13 @@ Find the sum of the digits in the number 100!
 """
 from datetime import datetime as dtime
 
-
-def factorial(number):
-    """Calculate factorials."""
-    product = 1
-    for term in range(number, 1, -1):
-        product *= term
-    return product
+from shared import util
 
 
 def run():
     start_time = dtime.now()
 
-    answer = sum([int(d) for d in list(str(factorial(100)))])
+    answer = sum([int(d) for d in list(str(util.factorial(100)))])
 
     print('answer is: %s' % str(answer))
     print('elapsed seconds: %f' % (dtime.now() - start_time).total_seconds())

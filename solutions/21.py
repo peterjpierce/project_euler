@@ -12,33 +12,18 @@ Evaluate the sum of all the amicable numbers under 10000.
 """
 from datetime import datetime as dtime
 
+from shared import util
+
 
 class Number:
     """A number and its divisors."""
     def __init__(self, value):
         self.value = value
-        self.divisors = self.proper_divisors()
+        self.divisors = util.proper_divisors(value)
 
     @property
     def sum_of_divisors(self):
         return sum(self.divisors)
-
-    def proper_divisors(self):
-        range_stop = int((self.value / 2) + 1)
-        candidates = set(range(1, range_stop))
-        found =[]
-
-        def is_divisor(x):
-            return not bool(self.value % x)
-
-        while len(candidates):
-            candidate = candidates.pop()
-            if is_divisor(candidate):
-                found.append(candidate)
-            else:
-                candidates.difference_update(range(candidate ** 2, range_stop, candidate))
-
-        return found
 
     def __repr__(self):
         return '<Number: %d>' % self.value
