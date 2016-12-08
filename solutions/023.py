@@ -1,5 +1,5 @@
 """
-Problem 24
+Problem 23
 
 A perfect number is a number for which the sum of its proper divisors is
 exactly equal to the number. For example, the sum of the proper divisors of
