@@ -13,6 +13,15 @@ def factorial(number):
     return product
 
 
+def fibonacci_sequence():
+    """Generate (yield) successive terms in a Fibonacci sequence."""
+    a, b = 0, 1
+
+    while True:
+        yield b
+        a, b = b, a + b
+
+
 def primes(maximum_value, verbose=True):
     """Generate a sequence of prime numbers, using Sieve of Eratosthenes.
 
