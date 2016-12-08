@@ -50,7 +50,7 @@ def is_divisor(factor, number):
     return not bool(number % factor)
 
 
-def proper_divisors(number):
+def proper_divisors(number, verbose=False):
     """Find proper divisors of a number.
 
     Args:
@@ -61,13 +61,25 @@ def proper_divisors(number):
         """
     range_stop = int((number / 2) + 1)
     candidates = set(range(1, range_stop))
-    found = []
+    found, max_divisor = [], None
 
     while len(candidates):
         candidate = candidates.pop()
+
         if is_divisor(candidate, number):
             found.append(candidate)
+
+            # crash out early or set "done" threshold for greatest divisor
+            if max_divisor and candidate >= max_divisor:
+                break
+            elif max_divisor is None and candidate > 1:
+                max_divisor = int(number / candidate)
+                range_stop = max_divisor
+
         else:
             candidates.difference_update(range(candidate ** 2, range_stop, candidate))
+
+    if verbose:
+        print('found %d divisors for %d' % (len(found), number))
 
     return found
