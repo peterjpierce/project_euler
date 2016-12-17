@@ -30,7 +30,7 @@ def coins_value(coins):
 def run():
     """Visualize the spiral being unwrapped and laid out flat."""
     start_time = util.now()
-    solutions, zeroes = [], Coins(0, 0, 0, 0, 0, 0, 0, 0)
+    solutions, coins = [], Coins(0, 0, 0, 0, 0, 0, 0, 0)
     verbose = True
     goal = 200
 
@@ -38,8 +38,8 @@ def run():
         """Get range boundary for a denomination given coins already used."""
         return int((goal - coins_value(coins_so_far)) / FACE_VALUES[denomination]) + 1
 
-    for l2 in range(0, range_upper(zeroes, 'l2')):
-        coins = zeroes._replace(l2=l2)
+    for l2 in range(0, range_upper(coins, 'l2')):
+        coins = coins._replace(l2=l2)
 
         for l1 in range(0, range_upper(coins, 'l1')):
             coins = coins._replace(l1=l1)
