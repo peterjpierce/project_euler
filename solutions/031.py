@@ -16,9 +16,7 @@ from collections import namedtuple
 
 from shared import util
 
-
 FACE_VALUES = {'l2': 200, 'l1': 100, 'p50': 50, 'p20': 20, 'p10': 10, 'p5': 5, 'p2': 2, 'p1': 1}
-
 Coins = namedtuple('Coins', 'l2 l1 p50 p20 p10 p5 p2 p1')
 
 
@@ -28,7 +26,6 @@ def coins_value(coins):
 
 
 def run():
-    """Visualize the spiral being unwrapped and laid out flat."""
     start_time = util.now()
     solutions, coins = [], Coins(0, 0, 0, 0, 0, 0, 0, 0)
     verbose = True
