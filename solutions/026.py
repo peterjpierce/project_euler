@@ -42,7 +42,7 @@ def repeating_decimal(numerator, divisor, min_length=5):
     size, stop_looking_size, found = min_length - 1, len(number_string) / 2, None
 
     def trailing_chunks(length):
-        """Return last two substrings of the given length,"""
+        """Return last two substrings of the given length."""
         return number_string[-length:], number_string[-2 * length:-length]
 
     while not (found or size > stop_looking_size):

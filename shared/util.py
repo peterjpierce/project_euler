@@ -1,3 +1,11 @@
+import datetime
+
+
+def now():
+    """Get a current datetime object."""
+    return datetime.datetime.now()
+
+
 def factorial(number):
     """Calculate factorials
 
