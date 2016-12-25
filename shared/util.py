@@ -21,13 +21,15 @@ def factorial(number):
     return product
 
 
-def fibonacci_sequence():
+def fibonacci_sequence(maximum=None):
     """Generate (yield) successive terms in a Fibonacci sequence."""
     a, b = 0, 1
 
     while True:
         yield b
         a, b = b, a + b
+        if maximum and b > maximum:
+            raise StopIteration
 
 
 def primes(maximum_value, verbose=True):
