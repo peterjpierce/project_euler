@@ -1,10 +1,14 @@
 """
-Challenge (problem 4):
-A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+Problem 4
+
+A palindromic number reads the same both ways. The largest palindrome made
+from the product of two 2-digit numbers is 9009 = 91 × 99.
+
 Find the largest palindrome made from the product of two 3-digit numbers.
 """
 from collections import namedtuple
-from datetime import datetime as dtime
+
+from shared import util
 
 Palindrome = namedtuple('Palindrome', 'value upper lower')
 
@@ -16,7 +20,7 @@ def is_palindrome(number):
 
 
 def run():
-    start_time = dtime.now()
+    start_time = util.now()
     verbose = True
     ceiling, floor, biggest, cache = 999, 100, 1, []
 
@@ -40,8 +44,8 @@ def run():
                 break
 
     answer = biggest
-    print('answer is: %d' % answer)
-    print('elapsed seconds: %f' % (dtime.now() - start_time).total_seconds())
+    print('answer is: %s' % str(answer))
+    print('elapsed seconds: %f' % (util.now() - start_time).total_seconds())
 
 
 if __name__ == '__main__':
