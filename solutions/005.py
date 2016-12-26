@@ -1,48 +1,17 @@
 """
-Challenge (problem 5)
-2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
-What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+Problem 5
+
+2520 is the smallest number that can be divided by each of the numbers
+from 1 to 10 without any remainder.
+
+What is the smallest positive number that is evenly divisible by all
+of the numbers from 1 to 20?
 """
-from datetime import datetime as dtime
-
-
-def is_factor(divisor, number):
-    """Determine if a number is a factor of another."""
-    return not number % divisor
-
-
-class PrimeGenerator:
-    """Generate a sequence of prime numbers, up to a maximum value."""
-    def __init__(self, maximum_value, verbose=True):
-        self.maximum = maximum_value
-        self.verbose = verbose
-        self.found = []
-
-    def __iter__(self):
-        self._cursor = 2
-        return self
-
-    def __next__(self):
-        while self._cursor <= self.maximum:
-            is_prime = True
-
-            for prime in self.found:
-                if is_factor(prime, self._cursor):
-                    is_prime = False
-                    break
-
-            if is_prime:
-                self.found.append(self._cursor)
-                if self.verbose:
-                    print('found prime: %12d' % self._cursor)
-                return self._cursor
-
-            self._cursor += 1
-        raise StopIteration
+from shared import util
 
 
 def run():
-    start_time = dtime.now()
+    start_time = util.now()
     accumulated_factors, product = {}, 1
     lower, upper = 1, 20
 
@@ -51,13 +20,11 @@ def run():
         if x == 1:
             continue
 
-        applicable_primes = PrimeGenerator(maximum_value=x, verbose=False)
-
-        for prime in applicable_primes:
+        for prime in util.primes(maximum_value=x, verbose=False):
             unfactored_portion = x
             count = 0
 
-            while is_factor(prime, unfactored_portion):
+            while util.is_divisor(prime, unfactored_portion):
                 count += 1
                 unfactored_portion /= prime
 
@@ -68,8 +35,8 @@ def run():
         product *= pow(prime, power)
 
     answer = product
-    print('answer is: %d' % answer)
-    print('elapsed seconds: %f' % (dtime.now() - start_time).total_seconds())
+    print('answer is: %s' % str(answer))
+    print('elapsed seconds: %f' % (util.now() - start_time).total_seconds())
 
 
 if __name__ == '__main__':
