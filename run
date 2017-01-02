@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+me=$(basename $0)
+basedir=$(dirname $0)
+
+usage() {
+  echo "usage: $me <problem #>"
+  echo "   ex: $me 2"
+  echo "       $me 002"
+  echo "       $me 002.py"
+}
+
+die() { echo "$@" && exit 1; }
+
+([[ -z $1 ]] || [[ $1 == '-h' ]] || [[ $1 =~ help ]]) && usage && exit 0
+
+[[ -f $basedir/env/bin/activate ]] && source $basedir/env/bin/activate
+[[ -z $(which python3) ]] && die "these solutions require Python 3"
+
+problem=$1 && shift
+solution_file=$(printf "%03d" $(echo $problem|sed s/.py//)).py
+
+export PYTHONPATH=${basedir}:$PYTHONPATH
+python3 $basedir/solutions/$solution_file $@
