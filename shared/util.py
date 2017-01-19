@@ -1,4 +1,5 @@
 import datetime
+from math import sqrt
 
 
 def now():
@@ -102,3 +103,25 @@ def proper_divisors(number, verbose=False):
         print('found %d divisors for %d' % (len(found), number))
 
     return found
+
+
+def find_factors(number):
+    """Find the factors and their powers of a number.
+
+    Args:
+        number (int): the number to factor.
+
+    Returns:
+        A (dict) whose keys are the factors and values their powers.
+    """
+    unfactored_portion, accumulated_factors = number, {}
+
+    for prime in primes(sqrt(number), verbose=False):
+        while is_divisor(prime, unfactored_portion):
+            accumulated_factors[prime] = accumulated_factors.get(prime, 0) + 1
+            unfactored_portion /= prime
+
+    if unfactored_portion > 1:
+        accumulated_factors[unfactored_portion] = 1
+
+    return accumulated_factors

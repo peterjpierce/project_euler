@@ -14,7 +14,6 @@ We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred divisors?
 """
 from datetime import datetime as dtime
-from math import sqrt
 
 from shared import util
 
@@ -29,19 +28,8 @@ def run():
     while divisor_count < divisors_needed:
         cursor += 1
         triangle_number += cursor
-        unfactored_portion = triangle_number
-        accumulated_factors = {}
+        accumulated_factors = util.find_factors(triangle_number)
 
-        # factorize this number
-        for prime in util.primes(sqrt(triangle_number), verbose=False):
-            while util.is_divisor(prime, unfactored_portion):
-                accumulated_factors[prime] = accumulated_factors.get(prime, 0) + 1
-                unfactored_portion /= prime
-
-        if unfactored_portion > 1:
-            accumulated_factors[unfactored_portion] = 1
-
-        # calculate count of divisors
         divisor_count = 1
         for exponent in accumulated_factors.values():
             divisor_count *= (exponent + 1)
